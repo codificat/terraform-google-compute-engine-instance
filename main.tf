@@ -39,29 +39,8 @@ resource "google_compute_disk" "instances" {
   }
 }
 
-resource "google_compute_disk" "disk_1" {
-  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-01"
-  type  = "pd-ssd"
-  zone  = "${var.zone}"
-  size  = "5"
-}
-
-resource "google_compute_disk" "disk_2" {
-  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-02"
-  type  = "pd-ssd"
-  zone  = "${var.zone}"
-  size  = "5"
-}
-
-resource "google_compute_disk" "disk_3" {
-  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-03"
-  type  = "pd-ssd"
-  zone  = "${var.zone}"
-  size  = "5"
-}
-
-resource "google_compute_disk" "disk_4" {
-  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-04"
+resource "google_compute_disk" "extra_disk" {
+  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-0${count.index}"
   type  = "pd-ssd"
   zone  = "${var.zone}"
   size  = "5"
@@ -81,19 +60,19 @@ resource "google_compute_instance" "instances" {
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.disk_1.*.name, 0)}"
+    source = "${element(google_compute_disk.extra_disk.*.name, 0)}"
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.disk_2.*.name, 0)}"
+    source = "${element(google_compute_disk.extra_disk.*.name, 1)}"
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.disk_3.*.name, 0)}"
+    source = "${element(google_compute_disk.extra_disk.*.name, 2)}"
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.disk_4.*.name, 0)}"
+    source = "${element(google_compute_disk.extra_disk.*.name, 3)}"
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
