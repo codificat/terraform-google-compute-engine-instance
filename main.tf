@@ -5,14 +5,6 @@ resource "google_compute_address" "instances" {
   region = "${var.region}"
 }
 
-resource "google_compute_disk" "instances_secondary" {
-  count = "${var.amount * 4}"
-  name  = "${var.name_prefix}-sec-${count.index}"
-  type  = "pd-ssd"
-  zone  = "${var.zone}"
-  size  = "5"
-}
-
 resource "google_compute_disk" "instances" {
   count = "${var.amount}"
 
@@ -47,6 +39,34 @@ resource "google_compute_disk" "instances" {
   }
 }
 
+resource "google_compute_disk" "disk_1" {
+  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-01"
+  type  = "pd-ssd"
+  zone  = "${var.zone}"
+  size  = "5"
+}
+
+resource "google_compute_disk" "disk_2" {
+  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-02"
+  type  = "pd-ssd"
+  zone  = "${var.zone}"
+  size  = "5"
+}
+
+resource "google_compute_disk" "disk_3" {
+  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-03"
+  type  = "pd-ssd"
+  zone  = "${var.zone}"
+  size  = "5"
+}
+
+resource "google_compute_disk" "disk_4" {
+  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-04"
+  type  = "pd-ssd"
+  zone  = "${var.zone}"
+  size  = "5"
+}
+
 # https://www.terraform.io/docs/providers/google/r/compute_instance.html
 resource "google_compute_instance" "instances" {
   count = "${var.amount}"
@@ -61,19 +81,19 @@ resource "google_compute_instance" "instances" {
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.instances_secondary.*.name, 0)}"
+    source = "${google_compute_disk.disk_1.*.name}"
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.instances_secondary.*.name, 1)}"
+    source = "${google_compute_disk.disk_2.*.name}"
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.instances_secondary.*.name, 2)}"
+    source = "${google_compute_disk.disk_3.*.name}"
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.instances_secondary.*.name, 3)}"
+    source = "${google_compute_disk.disk_4.*.name}"
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
