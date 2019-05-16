@@ -40,11 +40,11 @@ resource "google_compute_disk" "instances" {
 }
 
 resource "google_compute_disk" "extra_disk" {
-  count = 4
-  name  = "${google_compute_disk.instances.*.name[count.index]}-sec-0${count.index}"
+  count = "${var.amount}"
+  name  = "${var.name_prefix}-${count.index}"
   type  = "pd-ssd"
   zone  = "${var.zone}"
-  size  = "5"
+  size  = "50"
 }
 
 # https://www.terraform.io/docs/providers/google/r/compute_instance.html
@@ -61,19 +61,7 @@ resource "google_compute_instance" "instances" {
   }
 
   attached_disk = {
-    source = "${element(google_compute_disk.extra_disk.*.name, 0)}"
-  }
-
-  attached_disk = {
-    source = "${element(google_compute_disk.extra_disk.*.name, 1)}"
-  }
-
-  attached_disk = {
-    source = "${element(google_compute_disk.extra_disk.*.name, 2)}"
-  }
-
-  attached_disk = {
-    source = "${element(google_compute_disk.extra_disk.*.name, 3)}"
+    source = "${google_compute_disk.extra_disk.*.name[count.index]}"
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
