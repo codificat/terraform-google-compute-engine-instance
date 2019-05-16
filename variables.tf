@@ -90,3 +90,8 @@ variable "lab_description" {
   default     = ""
   description = "user-data for metadata instance"
 }
+
+variable "gcp_instance_tag" {
+  description = "Tag for gcp instances"
+  default = "kubevirt"
+}
