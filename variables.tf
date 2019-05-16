@@ -93,5 +93,5 @@ variable "lab_description" {
 
 variable "gcp_instance_tag" {
   description = "Tag for gcp instances"
-  default = "kubevirt"
+  default = "kubevirtlab"
 }
