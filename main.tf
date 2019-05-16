@@ -61,7 +61,6 @@ resource "google_compute_instance" "instances" {
 
   network_interface = {
     network = "default"
-
     access_config = {
       nat_ip = "${google_compute_address.instances.*.address[count.index]}"
     }
@@ -75,47 +74,13 @@ resource "google_compute_instance" "instances" {
   allow_stopping_for_update = "true"
 }
 
-# ========================================================================================= #
-#                                  provisioner actions                                      #
-# ========================================================================================= #
-
-# resource "null_resource" "provisioner" {
-#   triggers {
-#     vm                            = "${google_compute_instance.instances.name}"
-#   }
-
-#   # generic connection block for all provisioners
-#   connection {
-#     type                          = "ssh"
-#     host                          = "${google_compute_address.instances.*.address[count.index]}"
-#     user                          = "${var.username}"
-#     private_key                   = "${file("${var.private_key_path}")}"
-#   }
-
-# reference: https://github.com/jonmorehouse/terraform-provisioner-ansible
-# fails: not maintained, not compatible with latest tf version
-# provisioner "ansible" {
-#   playbook = "awx.yml"
-#   hosts = ["all"]
-# }
-
-# }
-
-# ========================================================================================= #
-#                   binding a DNS name to the ephemeral IP of a new instance                #
-#                            requires google_dns_managed_zone                               #
-# ========================================================================================= #
-
+# Create DNS record on already existing DNS Zone
+# reference: https://www.terraform.io/docs/providers/google/r/dns_record_set.html
 resource "google_dns_record_set" "dns_record" {
-  # name = "${google_compute_instance.instances.*.name[count.index]}.${google_dns_managed_zone.dns_zone.dns_name}"
-  # for example: dns_record_name=ansible-dev
-  # will be: ansible-dev.cloud.eimertvink.nl
-  # name = "${var.dns_record_name}.${google_dns_managed_zone.managed_zone.dns_name}"
-  # managed_zone = "${google_dns_managed_zone.managed_zone.name}"
-  name = "${var.dns_record_name}.${var.dns_zone}"
+  count = "${var.amount}"
+  name = "${var.dns_record_name}-${count.index}.${var.dns_zone}"
   managed_zone = "${var.dns_name}"
   type = "A"
   ttl  = 300
-
-  rrdatas = ["${google_compute_instance.instances.*.network_interface.0.access_config.0.nat_ip}"]
+  rrdatas = ["${element(google_compute_instance.instances.*.network_interface.0.access_config.0.nat_ip, count.index + 1)}"]
 }
