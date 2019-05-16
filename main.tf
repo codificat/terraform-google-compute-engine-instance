@@ -60,8 +60,20 @@ resource "google_compute_instance" "instances" {
     auto_delete = true
   }
 
-  disk = {
-    disk = "${google_compute_disk.instances_secondary.name}"
+  attached_disk = {
+    source = "${element(google_compute_disk.instances_secondary.name, 0)}"
+  }
+
+  attached_disk = {
+    source = "${element(google_compute_disk.instances_secondary.name, 1)}"
+  }
+
+  attached_disk = {
+    source = "${element(google_compute_disk.instances_secondary.name, 2)}"
+  }
+
+  attached_disk = {
+    source = "${element(google_compute_disk.instances_secondary.name, 3)}"
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
