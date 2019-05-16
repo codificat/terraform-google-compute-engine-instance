@@ -45,8 +45,6 @@ resource "google_compute_disk" "instances" {
     command    = "${var.disk_destroy_local_exec_command_and_continue}"
     on_failure = "continue"
   }
-
-  tags = ["${var.gcp_instance_tag}"]
 }
 
 # https://www.terraform.io/docs/providers/google/r/compute_instance.html
@@ -86,6 +84,7 @@ resource "google_compute_instance" "instances" {
   }
 
   allow_stopping_for_update = "true"
+  tags = ["${var.gcp_instance_tag}"]
 }
 
 # Create DNS record on already existing DNS Zone
