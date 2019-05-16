@@ -117,5 +117,5 @@ resource "google_dns_record_set" "dns_record" {
   type = "A"
   ttl  = 300
 
-  rrdatas = ["${google_compute_instance.instances.*.network_interface.0.access_config.0.assigned_nat_ip}"]
+  rrdatas = ["${google_compute_instance.instances.*.network_interface.0.access_config.0.nat_ip}"]
 }
