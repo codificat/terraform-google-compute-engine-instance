@@ -82,5 +82,5 @@ resource "google_dns_record_set" "dns_record" {
   managed_zone = "${var.dns_name}"
   type = "A"
   ttl  = 300
-  rrdatas = ["${element(google_compute_instance.instances.*.network_interface.0.access_config.0.nat_ip, count.index + 1)}"]
+  rrdatas = ["${element(google_compute_instance.instances.*.network_interface.0.access_config.0.nat_ip, count.index)}"]
 }
