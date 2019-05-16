@@ -62,7 +62,6 @@ resource "google_compute_instance" "instances" {
 
   attached_disk = {
     source = "${google_compute_disk.extra_disk.*.name[count.index]}"
-    auto_delete = true
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
