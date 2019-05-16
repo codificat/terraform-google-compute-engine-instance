@@ -81,19 +81,19 @@ resource "google_compute_instance" "instances" {
   }
 
   attached_disk = {
-    source = "${google_compute_disk.disk_1.*.name}"
+    source = "${element(google_compute_disk.disk_1.*.name, 0)}"
   }
 
   attached_disk = {
-    source = "${google_compute_disk.disk_2.*.name}"
+    source = "${element(google_compute_disk.disk_2.*.name, 0)}"
   }
 
   attached_disk = {
-    source = "${google_compute_disk.disk_3.*.name}"
+    source = "${element(google_compute_disk.disk_3.*.name, 0)}"
   }
 
   attached_disk = {
-    source = "${google_compute_disk.disk_4.*.name}"
+    source = "${element(google_compute_disk.disk_4.*.name, 0)}"
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
