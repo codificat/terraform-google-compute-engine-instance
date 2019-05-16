@@ -84,3 +84,9 @@ variable "public_key_path" {
   description = "Only private-key auth is enabled by default. Use `ssh-keygen -t rsa` to generate a public-private keypair."
   default = "~/.ssh/id_rsa.pub"
 }
+
+variable "lab_description" {
+  type        = "string"
+  default     = ""
+  description = "user-data for metadata instance"
+}

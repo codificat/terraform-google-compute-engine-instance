@@ -49,12 +49,12 @@ resource "google_compute_instance" "instances" {
 
   boot_disk = {
     source      = "${google_compute_disk.instances.*.name[count.index]}"
-    auto_delete = false
+    auto_delete = true
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
   metadata {
-    description  = "Managed by Terraform"
+    description  = "Kubevirt Laboratory designed for ${var.lab_description} and managed by Terraform"
     user-data = "${replace(replace(var.user_data, "$$ZONE", var.zone), "$$REGION", var.region)}"
     ssh-keys = "${var.username}:${file("${var.public_key_path}")}"
   }
