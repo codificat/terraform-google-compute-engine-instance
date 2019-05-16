@@ -40,6 +40,7 @@ resource "google_compute_disk" "instances" {
 }
 
 resource "google_compute_disk" "extra_disk" {
+  count = 4
   name  = "${google_compute_disk.instances.*.name[count.index]}-sec-0${count.index}"
   type  = "pd-ssd"
   zone  = "${var.zone}"
