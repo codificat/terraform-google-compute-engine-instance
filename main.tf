@@ -41,7 +41,7 @@ resource "google_compute_disk" "instances" {
 
 resource "google_compute_disk" "extra_disk" {
   count = "${var.amount}"
-  name  = "${var.name_prefix}-${count.index}"
+  name  = "${var.name_prefix}-${count.index}-secondary"
   type  = "pd-ssd"
   zone  = "${var.zone}"
   size  = "50"
@@ -62,6 +62,7 @@ resource "google_compute_instance" "instances" {
 
   attached_disk = {
     source = "${google_compute_disk.extra_disk.*.name[count.index]}"
+    auto_delete = true
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
