@@ -8,7 +8,7 @@ resource "google_compute_address" "instances" {
 resource "google_compute_disk" "instances" {
   count = "${var.amount}"
 
-  name = "${var.name_prefix}-${count.index+1}"
+  name = "${var.name_prefix}-${count.index}"
   type = "${var.disk_type}"
   size = "${var.disk_size}"
 
@@ -50,7 +50,7 @@ resource "google_compute_disk" "extra_disk" {
 resource "google_compute_instance" "instances" {
   count = "${var.amount}"
 
-  name         = "${var.name_prefix}-${count.index+1}"
+  name         = "${var.name_prefix}-${count.index}"
   zone         = "${var.zone}"
   machine_type = "${var.machine_type}"
 
