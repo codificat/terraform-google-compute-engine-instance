@@ -1,8 +1,16 @@
 
 resource "google_compute_address" "instances" {
-  count = "${var.amount}"
-  name  = "${var.name_prefix}-${count.index}"
+  count  = "${var.amount}"
+  name   = "${var.name_prefix}-${count.index}"
   region = "${var.region}"
+}
+
+resource "google_compute_disk" "instances_secondary" {
+  count = "${var.amount * 4}"
+  name  = "${var.name_prefix}-sec-${count.index}"
+  type  = "pd-ssd"
+  zone  = "${var.zone}"
+  size  = "5"
 }
 
 resource "google_compute_disk" "instances" {
@@ -11,9 +19,9 @@ resource "google_compute_disk" "instances" {
   name = "${var.name_prefix}-${count.index+1}"
   type = "${var.disk_type}"
   size = "${var.disk_size}"
+
   # optional
   zone = "${var.zone}"
-
   image = "${var.disk_image}"
 
   provisioner "local-exec" {
@@ -52,6 +60,10 @@ resource "google_compute_instance" "instances" {
   boot_disk = {
     source      = "${google_compute_disk.instances.*.name[count.index]}"
     auto_delete = true
+  }
+
+  disk = {
+    disk = "${google_compute_disk.instances_secondary.name}"
   }
 
   # reference: https://cloud.google.com/compute/docs/storing-retrieving-metadata
