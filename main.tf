@@ -65,7 +65,7 @@ resource "google_compute_disk" "extra_disk_2" {
 
 resource "google_compute_disk" "extra_disk_3" {
   count = "${var.amount}"
-  name  = "${var.name_prefix}-${count.index}-extra3"
+  name  = "${var.name_prefix}-${count.index}-extra-3"
   type  = "pd-ssd"
   zone  = "${var.zone}"
   size  = "5"
