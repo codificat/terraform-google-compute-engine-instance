@@ -123,6 +123,7 @@ resource "google_compute_instance" "instances" {
     access_config = {
       nat_ip = "${google_compute_address.instances.*.address[count.index]}"
     }
+  }
 
   network_interface = {
     subnetwork = "${google_compute_subnetwork.vm-net.self_link}"
