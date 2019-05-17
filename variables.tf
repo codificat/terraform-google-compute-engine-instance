@@ -93,5 +93,11 @@ variable "lab_description" {
 
 variable "gcp_instance_tag" {
   description = "Tag for gcp instances"
-  default = "kubevirtlab"
+  default     = "kubevirtlab"
 }
+
+variable "gce_vm_subnet_cidr" {
+  description = "VM Subnet CIDR for GCE environment"
+  default     = "10.5.0.0/24"
+}
+
