@@ -83,8 +83,8 @@ resource "google_compute_disk" "extra_disk_3" {
 }
 
 resource "google_compute_firewall" "vm-net-firewall" {
-    name         = "Kubevirt VM Network Firewall"
-    description  = "Firewall rules for Kubevirt Network"
+    name         = "kubevirt-vm-net-firewall"
+    description  = "Kubevirt VM Network Firewall"
     network      = "${google_compute_network.vm-net.name}"
 
     allow {
