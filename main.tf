@@ -82,6 +82,21 @@ resource "google_compute_disk" "extra_disk_3" {
   size  = "5"
 }
 
+resource "google_compute_firewall" "vm-net-firewall" {
+    name         = "Kubevirt VM Network Firewall"
+    description  = "Firewall rules for Kubevirt Network"
+    network      = "${google_compute_network.vm-net.name}"
+
+    allow {
+        protocol = "icmp"
+    }
+
+    allow {
+      protocol   = "tcp"
+      ports      = ["22"]
+    }
+}
+
 # https://www.terraform.io/docs/providers/google/r/compute_instance.html
 resource "google_compute_instance" "instances" {
   count = "${var.amount}"
