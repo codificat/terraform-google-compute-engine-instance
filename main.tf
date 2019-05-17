@@ -1,8 +1,19 @@
-
 resource "google_compute_address" "instances" {
   count  = "${var.amount}"
   name   = "${var.name_prefix}-${count.index}"
   region = "${var.region}"
+}
+
+resource "google_compute_subnetwork" "vm-subnet" {
+  name          = "vm-subnet"
+  ip_cidr_range = "${var.gce_vm_subnet_cidr}"
+  network       = "${google_compute_network.vm-net.self_link}"
+  region        = "${var.region}"
+}
+
+resource "google_compute_network" "vm-net" {
+  name                    = "kubevirt-vm-network"
+  auto_create_subnetworks = "false"
 }
 
 resource "google_compute_disk" "instances" {
@@ -112,6 +123,10 @@ resource "google_compute_instance" "instances" {
     access_config = {
       nat_ip = "${google_compute_address.instances.*.address[count.index]}"
     }
+
+  network_interface = {
+    subnetwork = "${google_compute_subnetwork.vm-net.self_link}"
+    access_config = {}
   }
 
   scheduling {
