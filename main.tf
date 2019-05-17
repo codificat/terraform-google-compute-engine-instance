@@ -126,7 +126,7 @@ resource "google_compute_instance" "instances" {
   }
 
   network_interface = {
-    subnetwork = "${google_compute_subnetwork.instances.*.vm-subnet.self_link}"
+    subnetwork = "${google_compute_subnetwork.vm-subnet.self_link}"
     access_config = {}
   }
 
