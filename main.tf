@@ -158,7 +158,7 @@ resource "google_compute_instance" "instances" {
 # reference: https://www.terraform.io/docs/providers/google/r/dns_record_set.html
 resource "google_dns_record_set" "dns_record" {
   count = "${var.amount}"
-  name = "${var.dns_record_name}-${count.index}.${var.dns_zone}"
+  name = "${var.hostname_prefix}-${count.index}.${var.dns_zone}"
   managed_zone = "${var.dns_name}"
   type = "A"
   ttl  = 300

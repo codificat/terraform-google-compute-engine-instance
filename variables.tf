@@ -71,7 +71,7 @@ variable "dns_zone" {
   description = "The DNS zone that is pointing to Google' nameservers (if any). A.k.a. Google' DNS SOA (start of authority). Required suffix: . (dot). Use module google-managed-dns-zone to create."
 }
 
-variable "dns_record_name" {
+variable "hostname_prefix" {
   description = "DNS record type == A. For example: 'tower-dev' will become tower-dev.cloud.example.com"
 }
 
