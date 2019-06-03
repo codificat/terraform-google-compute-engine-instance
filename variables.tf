@@ -91,7 +91,7 @@ variable "lab_description" {
   description = "user-data for metadata instance"
 }
 
-variable "gcp_instance_tag" {
+variable "instance_tag" {
   description = "Tag for gcp instances"
   default     = "kubevirtlab"
 }

@@ -151,7 +151,7 @@ resource "google_compute_instance" "instances" {
   }
 
   allow_stopping_for_update = "true"
-  tags = ["${var.gcp_instance_tag}"]
+  tags = ["${var.instance_tag}"]
 }
 
 # Create DNS record on already existing DNS Zone
