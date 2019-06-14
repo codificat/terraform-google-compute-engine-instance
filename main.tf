@@ -5,7 +5,7 @@ resource "google_compute_address" "instances" {
 }
 
 resource "google_compute_subnetwork" "vm-subnet" {
-  name          = "vm-subnet"
+  name          = "kubevirtlab-vm-subnet"
   ip_cidr_range = "${var.gce_vm_subnet_cidr}"
   network       = "${google_compute_network.vm-net.self_link}"
   region        = "${var.region}"
