@@ -12,7 +12,7 @@ resource "google_compute_subnetwork" "vm-subnet" {
 }
 
 resource "google_compute_network" "vm-net" {
-  name                    = "kubevirt-vm-network"
+  name                    = "kubevirtlab-vm-network"
   auto_create_subnetworks = "false"
 }
 
@@ -83,7 +83,7 @@ resource "google_compute_disk" "extra_disk_3" {
 }
 
 resource "google_compute_firewall" "vm-net-firewall" {
-    name         = "kubevirt-vm-net-firewall"
+    name         = "kubevirtlab-vm-net-firewall"
     description  = "Kubevirt VM Network Firewall"
     network      = "${google_compute_network.vm-net.name}"
 
